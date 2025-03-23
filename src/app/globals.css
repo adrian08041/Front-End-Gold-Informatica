@@ -81,7 +81,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground h-full;
+    @apply bg-black text-foreground h-full;
   }
   html {
     @apply h-full;
