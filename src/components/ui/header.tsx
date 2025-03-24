@@ -14,8 +14,7 @@ import { Card } from "./card";
 import { SheetContent, Sheet, SheetTrigger, SheetHeader } from "./sheet";
 import { signIn, signOut, useSession } from "next-auth/react";
 
-
-import logo from "@/assets/logo.png";
+import logo from "/public/assets/logo.png";
 
 import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
 import { Separator } from "./separator";
@@ -33,7 +32,7 @@ const Header = () => {
   };
 
   return (
-    <Card className="border-preto2 flex items-center justify-between bg-black  p-[1.875rem]">
+    <Card className="flex items-center justify-between border-preto2 bg-black p-[1.875rem]">
       <Sheet>
         <SheetTrigger asChild>
           <Button size="icon">
@@ -46,40 +45,36 @@ const Header = () => {
             Menu
           </SheetHeader>
 
-
-            {status === "authenticated" &&  data?.user && (
-            <div className=" mt-4 flex flex-col">
+          {status === "authenticated" && data?.user && (
+            <div className="mt-4 flex flex-col">
               <div className="flex flex-col">
                 <div className="flex items-center gap-2 py-4">
-                <Avatar>
-                <AvatarFallback>
-                  {data.user.name?.[0].toUpperCase()}
-                </AvatarFallback>
+                  <Avatar>
+                    <AvatarFallback>
+                      {data.user.name?.[0].toUpperCase()}
+                    </AvatarFallback>
 
-                {data.user.image && (
-                  <AvatarImage src={data.user.image} />
-                )}
-              </Avatar>
-              <div className="flex flex-col">
-              <p className="font-medium text-white">{data.user.name}</p>
-              <p className=" text-white text-sm opacity-85">Boas compras!</p>
+                    {data.user.image && <AvatarImage src={data.user.image} />}
+                  </Avatar>
+                  <div className="flex flex-col">
+                    <p className="font-medium text-white">{data.user.name}</p>
+                    <p className="text-sm text-white opacity-85">
+                      Boas compras!
+                    </p>
+                  </div>
+                </div>
               </div>
-              
-            </div>
-              </div>
 
-
-            <Separator  />
+              <Separator />
             </div>
-            
-            )}
+          )}
 
           <div className="mt-2 flex flex-col gap-2">
             {status === "unauthenticated" && (
               <Button
                 onClick={handleLoginClick}
                 variant={"outline"}
-                className="w-full justify-start  border-backgroundItems bg-backgroundItems text-white"
+                className="w-full justify-start border-backgroundItems bg-backgroundItems text-white"
               >
                 <LogInIcon />
                 Fazer Login
@@ -90,7 +85,7 @@ const Header = () => {
               <Button
                 onClick={handleLogoutClick}
                 variant={"outline"}
-                className="w-full justify-start  border-backgroundItems bg-backgroundItems text-white"
+                className="w-full justify-start border-backgroundItems bg-backgroundItems text-white"
               >
                 <LogOutIcon />
                 Fazer Logout
@@ -99,33 +94,29 @@ const Header = () => {
 
             <Button
               variant={"outline"}
-              className="w-full justify-start  border-backgroundItems bg-backgroundItems text-white"
+              className="w-full justify-start border-backgroundItems bg-backgroundItems text-white"
             >
               <HomeIcon size={16} />
               Inicio
             </Button>
             <Button
               variant={"outline"}
-              className="w-full justify-start  border-backgroundItems bg-backgroundItems text-white"
+              className="w-full justify-start border-backgroundItems bg-backgroundItems text-white"
             >
               <PercentIcon size={16} />
               Ofertas
             </Button>
-            <Button variant={"outline"}
-              className="bg-backgroundItems border-backgroundItems  text-white w-full  justify-start ">
+            <Button
+              variant={"outline"}
+              className="w-full justify-start border-backgroundItems bg-backgroundItems text-white"
+            >
               <ListOrderedIcon size={16} />
               Catàlago
             </Button>
           </div>
         </SheetContent>
       </Sheet>
-            <Image
-            src={logo}
-            alt="Gold Informàtica"
-            width={150}
-            height={150}
-            />
-      
+      <Image src={logo} alt="Gold Informàtica" width={150} height={150} />
 
       <Button size="icon">
         <ShoppingCartIcon />
