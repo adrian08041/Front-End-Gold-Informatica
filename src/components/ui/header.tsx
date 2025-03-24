@@ -13,12 +13,13 @@ import { Button } from "./button";
 import { Card } from "./card";
 import { SheetContent, Sheet, SheetTrigger, SheetHeader } from "./sheet";
 import { signIn, signOut, useSession } from "next-auth/react";
-import React from "react";
-import Image from "next/image";
+
+
 import logo from "@/assets/logo.png";
 
 import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
 import { Separator } from "./separator";
+import Image from "next/image";
 
 const Header = () => {
   const { status, data } = useSession();
