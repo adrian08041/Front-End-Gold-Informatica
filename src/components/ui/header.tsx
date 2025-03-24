@@ -17,8 +17,11 @@ import React from "react";
 import Image from "next/image";
 import logo from "@/assets/logo.png";
 
+import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
+import { Separator } from "./separator";
+
 const Header = () => {
-  const { status } = useSession();
+  const { status, data } = useSession();
 
   const handleLogoutClick = async () => {
     await signOut();
@@ -29,7 +32,7 @@ const Header = () => {
   };
 
   return (
-    <Card className="border-preto2 flex items-center justify-between bg-black p-5 p-[1.875rem]">
+    <Card className="border-preto2 flex items-center justify-between bg-black  p-[1.875rem]">
       <Sheet>
         <SheetTrigger asChild>
           <Button size="icon">
@@ -41,6 +44,34 @@ const Header = () => {
           <SheetHeader className="text-lg font-semibold text-white">
             Menu
           </SheetHeader>
+
+
+            {status === "authenticated" &&  data?.user && (
+            <div className=" mt-4 flex flex-col">
+              <div className="flex flex-col">
+                <div className="flex items-center gap-2 py-4">
+                <Avatar>
+                <AvatarFallback>
+                  {data.user.name?.[0].toUpperCase()}
+                </AvatarFallback>
+
+                {data.user.image && (
+                  <AvatarImage src={data.user.image} />
+                )}
+              </Avatar>
+              <div className="flex flex-col">
+              <p className="font-medium text-white">{data.user.name}</p>
+              <p className=" text-white text-sm opacity-85">Boas compras!</p>
+              </div>
+              
+            </div>
+              </div>
+
+
+            <Separator  />
+            </div>
+            
+            )}
 
           <div className="mt-2 flex flex-col gap-2">
             {status === "unauthenticated" && (
