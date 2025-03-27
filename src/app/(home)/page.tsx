@@ -39,6 +39,12 @@ export default async function Home() {
         <SectionTitle>teclados</SectionTitle>
         <ProductList products={keyboards} />
       </div>
+      <div className="mt-8">
+        <PromoBanner
+          src="/assets/banner-fones.png"
+          alt="até 50% de desconto em mouses"
+        />
+      </div>
     </div>
   );
 }
