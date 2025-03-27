@@ -27,9 +27,12 @@ const config: Config = {
         preto: {
           DEFAULT: "#0B0B0B",
         },
-		preto2: {
-		  DEFAULT: "#1A1A1A"
-		},
+        preto2: {
+          DEFAULT: "#1A1A1A",
+        },
+        cinza: {
+          DEFAULT: "#676767",
+        },
 
         backgroundItems: {
           DEFAULT: "#1A1A1A",

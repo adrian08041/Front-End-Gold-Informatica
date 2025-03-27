@@ -1,20 +1,21 @@
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import './globals.css'
-import Header from '@/components/ui/header'
-import { AuthProvider } from '@/providers/auth'
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
+import Header from "@/components/ui/header";
+import { AuthProvider } from "@/providers/auth";
+import Footer from "@/components/ui/footer";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Gold Informàtica',
-  description: 'loja de periféricos e acessórios de informática',
-}
+  title: "Gold Informàtica",
+  description: "loja de periféricos e acessórios de informática",
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en">
@@ -22,8 +23,9 @@ export default function RootLayout({
         <AuthProvider>
           <Header />
           {children}
+          <Footer />
         </AuthProvider>
-        </body>
+      </body>
     </html>
-  )
+  );
 }
