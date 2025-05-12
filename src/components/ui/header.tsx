@@ -11,7 +11,13 @@ import {
 } from "lucide-react";
 import { Button } from "./button";
 import { Card } from "./card";
-import { SheetContent, Sheet, SheetTrigger, SheetHeader } from "./sheet";
+import {
+  SheetContent,
+  Sheet,
+  SheetTrigger,
+  SheetHeader,
+  SheetClose,
+} from "./sheet";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 import logo from "/public/assets/logo.png";
@@ -19,6 +25,7 @@ import logo from "/public/assets/logo.png";
 import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
 import { Separator } from "./separator";
 import Image from "next/image";
+import Link from "next/link";
 
 const Header = () => {
   const { status, data } = useSession();
@@ -91,14 +98,17 @@ const Header = () => {
                 Fazer Logout
               </Button>
             )}
-
-            <Button
-              variant={"outline"}
-              className="w-full justify-start border-backgroundItems bg-backgroundItems text-white"
-            >
-              <HomeIcon size={16} />
-              Inicio
-            </Button>
+            <SheetClose asChild>
+              <Link href="/">
+                <Button
+                  variant={"outline"}
+                  className="w-full justify-start border-backgroundItems bg-backgroundItems text-white"
+                >
+                  <HomeIcon size={16} />
+                  Inicio
+                </Button>
+              </Link>
+            </SheetClose>
             <Button
               variant={"outline"}
               className="w-full justify-start border-backgroundItems bg-backgroundItems text-white"
@@ -106,17 +116,23 @@ const Header = () => {
               <PercentIcon size={16} />
               Ofertas
             </Button>
-            <Button
-              variant={"outline"}
-              className="w-full justify-start border-backgroundItems bg-backgroundItems text-white"
-            >
-              <ListOrderedIcon size={16} />
-              Catàlago
-            </Button>
+            <SheetClose asChild>
+              <Link href="/catalog">
+                <Button
+                  variant={"outline"}
+                  className="w-full justify-start border-backgroundItems bg-backgroundItems text-white"
+                >
+                  <ListOrderedIcon size={16} />
+                  Catàlago
+                </Button>
+              </Link>
+            </SheetClose>
           </div>
         </SheetContent>
       </Sheet>
-      <Image src={logo} alt="Gold Informàtica" width={150} height={150} />
+      <Link href="/">
+        <Image src={logo} alt="Gold Informàtica" width={150} height={150} />
+      </Link>
 
       <Button size="icon">
         <ShoppingCartIcon />
