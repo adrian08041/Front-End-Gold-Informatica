@@ -1,6 +1,7 @@
 import { prismaClient } from "@/lib/prisma";
 import { ProductImages } from "./components/product-images";
 
+
 interface ProductDetailsPageProps {
   params: {
     slug: string;
