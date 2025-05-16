@@ -26,6 +26,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
 import { Separator } from "./separator";
 import Image from "next/image";
 import Link from "next/link";
+import Cart from "./cart";
 
 const Header = () => {
   const { status, data } = useSession();
@@ -134,9 +135,16 @@ const Header = () => {
         <Image src={logo} alt="Gold Informàtica" width={150} height={150} />
       </Link>
 
-      <Button size="icon">
-        <ShoppingCartIcon />
-      </Button>
+      <Sheet>
+        <SheetTrigger asChild>
+          <Button size="icon">
+            <ShoppingCartIcon />
+          </Button>
+        </SheetTrigger>
+        <SheetContent className="bg-backgroundItems text-white">
+          <Cart />
+        </SheetContent>
+      </Sheet>
     </Card>
   );
 };
