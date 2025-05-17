@@ -141,7 +141,7 @@ const Header = () => {
             <ShoppingCartIcon />
           </Button>
         </SheetTrigger>
-        <SheetContent className="bg-backgroundItems text-white">
+        <SheetContent className="bg-preto text-white">
           <Cart />
         </SheetContent>
       </Sheet>
