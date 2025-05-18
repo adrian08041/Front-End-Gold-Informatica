@@ -5,12 +5,15 @@ import { CartContext } from "@/providers/cart";
 import CartItem from "./cart-item";
 import { ComputeProductTotalPrice } from "@/helpers/product";
 import { Separator } from "@radix-ui/react-separator";
+import { ScrollArea } from "./scroll-area";
+import { Button } from "./button";
+
 
 const Cart = () => {
   const { products, subTotal, total, totalDiscount } = useContext(CartContext);
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex h-full flex-col gap-8">
       <Badge className="w-fit gap-1 border-2 border-dourado px-3 py-[0.375rem] text-base uppercase">
         <ShoppingCartIcon size={16} />
         Carrinho
@@ -18,17 +21,23 @@ const Cart = () => {
 
       {/*  renderizar produtos */}
 
-      <div className="flex flex-col gap-5">
-        {products.length > 0 ? (
-          products.map((product) => (
-            <CartItem
-              key={product.id}
-              product={ComputeProductTotalPrice(product as any) as any}
-            />
-          ))
-        ) : (
-          <p className="text-center font-semibold">Carrinho vazio.</p>
-        )}
+      <div className="flex h-full flex-col gap-5 overflow-hidden">
+        <div className="flex flex-col h-full">
+          <ScrollArea className="h-full">
+          <div className="flex flex-col gap-6 h-full">
+            {products.length > 0 ? (
+            products.map((product) => (
+              <CartItem
+                key={product.id}
+                product={ComputeProductTotalPrice(product as any) as any}
+              />
+            ))
+          ) : (
+            <p className="text-center font-semibold">Carrinho vazio.</p>
+          )}
+          </div>
+        </ScrollArea>
+        </div>
       </div>
 
       <div className="flex flex-col gap-3">
@@ -44,7 +53,6 @@ const Cart = () => {
           <p>GRÀTIS</p>
         </div>
 
-
         <Separator className="h-[2px] w-full bg-accent opacity-50" />
         <div className="flex items-center justify-between text-xs">
           <p>Descontos</p>
@@ -56,6 +64,7 @@ const Cart = () => {
           <p>Total</p>
           <p>{total.toFixed(2)}</p>
         </div>
+        <Button variant={"secondary"} className="uppercase font-bold mt-5"> Finalizar compra</Button>
       </div>
     </div>
   );
