@@ -1,13 +1,20 @@
-import { CartProduct } from "@/providers/cart";
+import { CartContext, CartProduct } from "@/providers/cart";
 import Image from "next/image";
 import { Button } from "./button";
 import { ArrowLeftIcon, ArrowRightIcon, Trash, TrashIcon } from "lucide-react";
+import { useContext } from "react";
 
 interface CartItemProps {
   product: CartProduct;
 }
 
 const CartItem = ({ product }: CartItemProps) => {
+  const { decreaseProductQuantity } = useContext(CartContext);
+
+  const handleDecreaseProductQuantityClick = () => {
+    decreaseProductQuantity(product.id);
+  };
+
   return (
     <div className="flex items-center justify-between">
       <div className="items flex gap-4">
@@ -37,21 +44,27 @@ const CartItem = ({ product }: CartItemProps) => {
               </p>
             )}
           </div>
-          <div className=" flex items-center gap-2">
-            <Button className="h-8 w-8" size="icon" variant="ghost">
+          <div className="flex items-center gap-2">
+            <Button
+              className="h-8 w-8"
+              size="icon"
+              variant="ghost"
+              onClick={handleDecreaseProductQuantityClick}
+            >
               <ArrowLeftIcon size={12} />
             </Button>
-            <span className="text-xs gap-1">{product.quantity}</span>
+            <span className="gap-1 text-xs">{product.quantity}</span>
             <Button className="h-8 w-8" size="icon" variant="ghost">
               <ArrowRightIcon size={12} />
             </Button>
           </div>
         </div>
       </div>
-      <div>{/* PARTE ESQUERDA BOTAO DE DELETAR */}
+      <div>
+        {/* PARTE ESQUERDA BOTAO DE DELETAR */}
 
         <Button className="h-8 w-8" size="icon" variant="ghost">
-            <TrashIcon size={16} />
+          <TrashIcon size={16} />
         </Button>
       </div>
     </div>
