@@ -9,7 +9,7 @@ interface CartItemProps {
 }
 
 const CartItem = ({ product }: CartItemProps) => {
-  const { decreaseProductQuantity, increaseProductQuantity } =
+  const { decreaseProductQuantity, increaseProductQuantity, removeProductFromCart } =
     useContext(CartContext);
 
   const handleDecreaseProductQuantityClick = () => {
@@ -18,6 +18,10 @@ const CartItem = ({ product }: CartItemProps) => {
 
   const handleIncreaseProductQuantityClick = () => {
     increaseProductQuantity(product.id);
+  };
+
+   const handleRemoveProductQuantityClick = () => {
+    removeProductFromCart(product.id);
   };
 
   return (
@@ -73,7 +77,7 @@ const CartItem = ({ product }: CartItemProps) => {
       <div>
         {/* PARTE ESQUERDA BOTAO DE DELETAR */}
 
-        <Button className="h-8 w-8" size="icon" variant="ghost">
+        <Button className="h-8 w-8" size="icon" variant="ghost" onClick={handleRemoveProductQuantityClick}>
           <TrashIcon size={16} />
         </Button>
       </div>
