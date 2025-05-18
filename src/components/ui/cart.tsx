@@ -7,10 +7,20 @@ import { ComputeProductTotalPrice } from "@/helpers/product";
 import { Separator } from "@radix-ui/react-separator";
 import { ScrollArea } from "./scroll-area";
 import { Button } from "./button";
-
+import { createCheckout } from "@/actions/checkout";
+import { loadStripe } from '@stripe/stripe-js';
 
 const Cart = () => {
   const { products, subTotal, total, totalDiscount } = useContext(CartContext);
+
+  const handleFinishCheckout = async () => {
+    const checkout = await createCheckout(products, "orderId");
+
+    const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
+    stripe?.redirectToCheckout({
+      sessionId: checkout.id,
+    });
+  };
 
   return (
     <div className="flex h-full flex-col gap-8">
@@ -22,21 +32,21 @@ const Cart = () => {
       {/*  renderizar produtos */}
 
       <div className="flex h-full flex-col gap-5 overflow-hidden">
-        <div className="flex flex-col h-full">
+        <div className="flex h-full flex-col">
           <ScrollArea className="h-full">
-          <div className="flex flex-col gap-6 h-full">
-            {products.length > 0 ? (
-            products.map((product) => (
-              <CartItem
-                key={product.id}
-                product={ComputeProductTotalPrice(product as any) as any}
-              />
-            ))
-          ) : (
-            <p className="text-center font-semibold">Carrinho vazio.</p>
-          )}
-          </div>
-        </ScrollArea>
+            <div className="flex h-full flex-col gap-6">
+              {products.length > 0 ? (
+                products.map((product) => (
+                  <CartItem
+                    key={product.id}
+                    product={ComputeProductTotalPrice(product as any) as any}
+                  />
+                ))
+              ) : (
+                <p className="text-center font-semibold">Carrinho vazio.</p>
+              )}
+            </div>
+          </ScrollArea>
         </div>
       </div>
 
@@ -64,7 +74,14 @@ const Cart = () => {
           <p>Total</p>
           <p>{total.toFixed(2)}</p>
         </div>
-        <Button variant={"secondary"} className="uppercase font-bold mt-5"> Finalizar compra</Button>
+        <Button
+          variant={"secondary"}
+          className="mt-5 font-bold uppercase"
+          onClick={handleFinishCheckout}
+        >
+          {" "}
+          Finalizar compra
+        </Button>
       </div>
     </div>
   );
