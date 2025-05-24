@@ -8,7 +8,7 @@ import { Separator } from "@radix-ui/react-separator";
 import { ScrollArea } from "./scroll-area";
 import { Button } from "./button";
 import { createCheckout } from "@/actions/checkout";
-import { loadStripe } from '@stripe/stripe-js';
+import { loadStripe } from "@stripe/stripe-js";
 
 const Cart = () => {
   const { products, subTotal, total, totalDiscount } = useContext(CartContext);
@@ -49,40 +49,41 @@ const Cart = () => {
           </ScrollArea>
         </div>
       </div>
+      {products.length > 0 && (
+        <div className="flex flex-col gap-3">
+          <Separator className="h-[2px] w-full bg-accent opacity-50" />
 
-      <div className="flex flex-col gap-3">
-        <Separator className="h-[2px] w-full bg-accent opacity-50" />
+          <div className="flex items-center justify-between text-xs">
+            <p>SubTotal</p>
+            <p>R$ {subTotal.toFixed(2)} </p>
+          </div>
+          <Separator className="h-[2px] w-full bg-accent opacity-50" />
+          <div className="flex items-center justify-between text-xs">
+            <p>Entrega</p>
+            <p>GRÀTIS</p>
+          </div>
 
-        <div className="flex items-center justify-between text-xs">
-          <p>SubTotal</p>
-          <p>R$ {subTotal.toFixed(2)} </p>
-        </div>
-        <Separator className="h-[2px] w-full bg-accent opacity-50" />
-        <div className="flex items-center justify-between text-xs">
-          <p>Entrega</p>
-          <p>GRÀTIS</p>
-        </div>
+          <Separator className="h-[2px] w-full bg-accent opacity-50" />
+          <div className="flex items-center justify-between text-xs">
+            <p>Descontos</p>
+            <p>R$ {totalDiscount.toFixed(2)}</p>
+          </div>
 
-        <Separator className="h-[2px] w-full bg-accent opacity-50" />
-        <div className="flex items-center justify-between text-xs">
-          <p>Descontos</p>
-          <p>R$ {totalDiscount.toFixed(2)}</p>
+          <Separator className="h-[2px] w-full bg-accent opacity-50" />
+          <div className="flex items-center justify-between text-sm font-bold">
+            <p>Total</p>
+            <p>{total.toFixed(2)}</p>
+          </div>
+          <Button
+            variant={"secondary"}
+            className="mt-5 font-bold uppercase"
+            onClick={handleFinishCheckout}
+          >
+            {" "}
+            Finalizar compra
+          </Button>
         </div>
-
-        <Separator className="h-[2px] w-full bg-accent opacity-50" />
-        <div className="flex items-center justify-between text-sm font-bold">
-          <p>Total</p>
-          <p>{total.toFixed(2)}</p>
-        </div>
-        <Button
-          variant={"secondary"}
-          className="mt-5 font-bold uppercase"
-          onClick={handleFinishCheckout}
-        >
-          {" "}
-          Finalizar compra
-        </Button>
-      </div>
+      )}
     </div>
   );
 };
