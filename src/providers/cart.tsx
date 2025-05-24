@@ -2,7 +2,7 @@
 
 import { ProductWithTotalPrice } from "@/helpers/product";
 
-import { createContext, useMemo, useState } from "react";
+import { createContext, useEffect, useMemo, useState } from "react";
 
 export interface CartProduct extends ProductWithTotalPrice {
   quantity: number;
@@ -38,7 +38,17 @@ export const CartContext = createContext<ICartContext>({
 });
 
 const CartProvider = ({ children }: { children: React.ReactNode }) => {
-  const [products, setProducts] = useState<CartProduct[]>([]);
+  const [products, setProducts] = useState<CartProduct[]>(
+    JSON.parse(localStorage.getItem("@gold-informatica/cart-products") || "[]"),
+  );
+
+  useEffect(() => {
+    localStorage.setItem(
+      "@gold-informatica/cart-products",
+      JSON.stringify(products),
+    );
+    [products];
+  });
 
   // preco total  sem desconto
 
