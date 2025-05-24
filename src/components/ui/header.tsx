@@ -110,13 +110,17 @@ const Header = () => {
                 </Button>
               </Link>
             </SheetClose>
-            <Button
-              variant={"outline"}
-              className="w-full justify-start border-backgroundItems bg-backgroundItems text-white"
-            >
-              <PercentIcon size={16} />
-              Ofertas
-            </Button>
+            <SheetClose asChild>
+              <Link href={"/deals"}>
+                <Button
+                  variant={"outline"}
+                  className="w-full justify-start border-backgroundItems bg-backgroundItems text-white"
+                >
+                  <PercentIcon size={16} />
+                  Ofertas
+                </Button>
+              </Link>
+            </SheetClose>
             <SheetClose asChild>
               <Link href="/catalog">
                 <Button
