@@ -16,12 +16,12 @@ export const createCheckout = async (
     mode: "payment",
     // rodar em produção
 
-    // success_url: process.env.HOST_URL,
-    // cancel_url: process.env.HOST_URL,
+    success_url: process.env.HOST_URL,
+    cancel_url: process.env.HOST_URL,
 
     // rodar em desenvolvimento
-    success_url: "http://localhost:3000/",
-    cancel_url: "http://localhost:3000/",
+    // success_url: "http://localhost:3000/",
+    // cancel_url: "http://localhost:3000/",
     metadata: {
       orderId,
     },
