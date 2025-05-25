@@ -6,6 +6,7 @@ import {
   LogInIcon,
   LogOutIcon,
   MenuIcon,
+  PackageSearchIcon,
   PercentIcon,
   ShoppingCartIcon,
 } from "lucide-react";
@@ -99,6 +100,7 @@ const Header = () => {
                 Fazer Logout
               </Button>
             )}
+
             <SheetClose asChild>
               <Link href="/">
                 <Button
@@ -107,6 +109,17 @@ const Header = () => {
                 >
                   <HomeIcon size={16} />
                   Inicio
+                </Button>
+              </Link>
+            </SheetClose>
+            <SheetClose asChild>
+              <Link href="/orders">
+                <Button
+                  variant={"outline"}
+                  className="w-full justify-start border-backgroundItems bg-backgroundItems text-white"
+                >
+                  <PackageSearchIcon size={16} />
+                  Meus Pedidos
                 </Button>
               </Link>
             </SheetClose>

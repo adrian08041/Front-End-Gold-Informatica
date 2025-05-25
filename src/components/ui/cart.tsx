@@ -81,7 +81,7 @@ const Cart = () => {
           <Separator className="h-[2px] w-full bg-accent opacity-50" />
           <div className="flex items-center justify-between text-sm font-bold">
             <p>Total</p>
-            <p>{total.toFixed(2)}</p>
+            <p>R$ {total.toFixed(2)}</p>
           </div>
           <Button
             variant={"secondary"}
