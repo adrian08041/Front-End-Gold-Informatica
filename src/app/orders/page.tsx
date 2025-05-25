@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { Badge } from "@/components/ui/badge";
 import { authOptions } from "@/lib/auth";
 import { prismaClient } from "@/lib/prisma";
@@ -6,7 +8,7 @@ import { getServerSession } from "next-auth";
 import OrderItem from "./components/order-item";
 
 async function OrderPage() {
-  const user = getServerSession(authOptions);
+  const user = await getServerSession(authOptions);
 
   if (!user) {
     return (
