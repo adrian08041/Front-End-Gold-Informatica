@@ -9,6 +9,8 @@ import { Prisma } from "@prisma/client";
 import { format } from "date-fns";
 import OrderProductsItem from "./order-product-item";
 import { Separator } from "@/components/ui/separator";
+import { useMemo } from "react";
+import { ComputeProductTotalPrice } from "@/helpers/product";
 
 interface OrderItemProps {
   order: Prisma.OrderGetPayload<{
@@ -21,13 +23,37 @@ interface OrderItemProps {
 }
 
 const OrderItem = ({ order }: OrderItemProps) => {
+  //calculo subtotal
+  const subTotal = useMemo(() => {
+    return order.orderProducts.reduce((acc, orderProduct) => {
+      return (
+        acc + Number(orderProduct.product.basePrice) * orderProduct.quantity
+      );
+    }, 0);
+  }, [order.orderProducts]);
+
+  // calculo total
+  const total = useMemo(() => {
+    return order.orderProducts.reduce((acc, product) => {
+      const productWithTotalPrice = ComputeProductTotalPrice(product.product);
+      return acc + productWithTotalPrice.totalPrice * product.quantity;
+    }, 0);
+  }, [order.orderProducts]);
+
+  // calculo desconto
+  const totalDiscount = subTotal - total;
+
   return (
     <Card className="border-none bg-preto p-4 text-white">
       <Accordion type="single" className="w-full" collapsible>
         <AccordionItem value={order.id}>
           <AccordionTrigger>
             <div className="flex flex-col gap-1 text-left">
-              Pedido com {order.orderProducts.length} produto(s)
+              <p>Pedido com {order.orderProducts.length} produto(s)</p>
+              <span className="text-sm opacity-60">
+                {" "}
+                Feito em {format(order.createdAt, "d/MM/y 'às' HH:mm")}
+              </span>
             </div>
           </AccordionTrigger>
           <AccordionContent>
@@ -56,14 +82,32 @@ const OrderItem = ({ order }: OrderItemProps) => {
                 />
               ))}
 
-              <div className="flex flex-col gap-1 opacity-70">
-                <Separator/>
+              <div className="flex flex-col gap-1 text-xs opacity-70">
+                <Separator />
+
+                <div className="flex w-full justify-between py-3">
+                  <p>SubTotal</p>
+                  <p>R$ {subTotal.toFixed(2)}</p>
+                </div>
+                <Separator />
+
+                <div className="flex w-full justify-between py-3">
+                  <p>Entregal</p>
+                  <p>Gràtis</p>
+                </div>
+                <Separator />
+
+                <div className="flex w-full justify-between py-3">
+                  <p>Descontos</p>
+                  <p>R$ {totalDiscount.toFixed(2)}</p>
+                </div>
+                <Separator />
+
+                <div className="flex w-full justify-between py-3 text-sm font-bold">
+                  <p>Total</p>
+                  <p>R$ {total.toFixed(2)}</p>
+                </div>
               </div>
-                
-                
-
-
-
             </div>
           </AccordionContent>
         </AccordionItem>
