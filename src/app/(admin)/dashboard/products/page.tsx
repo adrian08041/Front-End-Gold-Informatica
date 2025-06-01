@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { prismaClient } from "@/lib/prisma";
 import { PackageIcon, PlusIcon } from "lucide-react";
 
-import { ComputeProductTotalPrice } from "@/helpers/product";
+import { computeProductTotalPrice } from "@/helpers/product";
 import ProductsTable, {
   ProductWithTotalPriceAndCategory,
 } from "./components/products-table";
@@ -22,18 +22,18 @@ const ProductsPage = async () => {
   const productsWithTotalPrice: ProductWithTotalPriceAndCategory[] =
     products.map((product) => ({
       ...product,
-      totalPrice: ComputeProductTotalPrice(product),
+      totalPrice: computeProductTotalPrice(product),
     }));
 
   return (
     <div className="flex w-full flex-col gap-10 p-10">
-      <Badge variant="secondary">
+      <Badge className="w-fit gap-1 border-2 border-dourado px-3 py-[0.375rem] text-base uppercase">
         <PackageIcon size={18} />
         Produtos
       </Badge>
 
       <div className="flex w-full items-center justify-between">
-        <p className="text-lg  text-white font-bold">
+        <p className="text-lg font-bold text-white">
           Produtos encontrados: {products.length}
         </p>
 

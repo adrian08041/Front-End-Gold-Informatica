@@ -1,13 +1,14 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-
+import logo from "/public/assets/logo.png";
 import {
   LayoutDashboardIcon,
   ListOrderedIcon,
   PackageIcon,
   PackageSearchIcon,
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -15,10 +16,10 @@ const Sidebar = () => {
   const path = usePathname();
 
   return (
-    <div className="flex min-w-[300px] flex-col items-center gap-8 border-r border-solid border-backgroundItems text-white bg-black p-8">
-      <h1 className="text-lg font-semibold ">
-        <span className="text-primary  text-white" >GOLD</span> Informàtica
-      </h1>
+    <div className="flex min-w-[300px] flex-col items-center gap-8 border-r border-solid border-backgroundItems bg-black p-8 text-white">
+      <Link href="/">
+        <Image src={logo} alt="Gold Informàtica" width={150} height={150} />
+      </Link>
 
       <div className="flex w-full flex-col gap-3">
         <Button variant="secondary" className="flex w-full justify-start gap-2">

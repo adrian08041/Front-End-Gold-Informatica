@@ -1,6 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import ProductItem from "@/components/ui/product-item";
-import { ComputeProductTotalPrice } from "@/helpers/product";
+import { computeProductTotalPrice } from "@/helpers/product";
+
 import { prismaClient } from "@/lib/prisma";
 import { PercentIcon } from "lucide-react";
 
@@ -22,7 +23,10 @@ const DealsPage = async () => {
         {deals.map((product) => (
           <ProductItem
             key={product.id}
-            product={ComputeProductTotalPrice(product)}
+            product={{
+              ...product,
+              totalPrice: computeProductTotalPrice(product),
+            }}
           />
         ))}
       </div>

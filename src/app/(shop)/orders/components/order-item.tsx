@@ -10,7 +10,7 @@ import { format } from "date-fns";
 import OrderProductsItem from "./order-product-item";
 import { Separator } from "@/components/ui/separator";
 import { useMemo } from "react";
-import { ComputeProductTotalPrice } from "@/helpers/product";
+import { computeProductTotalPrice } from "@/helpers/product";
 import { getOrderStatus } from "../helpers/status";
 
 interface OrderItemProps {
@@ -36,8 +36,8 @@ const OrderItem = ({ order }: OrderItemProps) => {
   // calculo total
   const total = useMemo(() => {
     return order.orderProducts.reduce((acc, product) => {
-      const productWithTotalPrice = ComputeProductTotalPrice(product.product);
-      return acc + productWithTotalPrice.totalPrice * product.quantity;
+      const productTotalPrice = computeProductTotalPrice(product.product);
+      return acc + productTotalPrice * product.quantity;
     }, 0);
   }, [order.orderProducts]);
 
@@ -49,8 +49,10 @@ const OrderItem = ({ order }: OrderItemProps) => {
       <Accordion type="single" className="w-full" collapsible>
         <AccordionItem value={order.id}>
           <AccordionTrigger>
-            <div className="flex flex-col gap-1 text-left ">
-              <p className="font-bold uppercase">Pedido com {order.orderProducts.length} produto(s)</p>
+            <div className="flex flex-col gap-1 text-left">
+              <p className="font-bold uppercase">
+                Pedido com {order.orderProducts.length} produto(s)
+              </p>
               <span className="text-sm opacity-60">
                 {" "}
                 Feito em {format(order.createdAt, "d/MM/y 'às' HH:mm")}

@@ -1,4 +1,5 @@
-import { ComputeProductTotalPrice } from "@/helpers/product";
+
+import { computeProductTotalPrice } from "@/helpers/product";
 import { Prisma } from "@prisma/client";
 import Image from "next/image";
 
@@ -11,9 +12,9 @@ interface OrderProductsItemProps {
 }
 
 const OrderProductsItem = ({ orderProduct }: OrderProductsItemProps) => {
-  const productWithTotalPrice = ComputeProductTotalPrice(orderProduct.product);
+  const productTotalPrice = computeProductTotalPrice(orderProduct.product);
   return (
-    <div className="flex items-center gap-4 w-full">
+    <div className="flex w-full items-center gap-4">
       <div className="flex h-[77px] w-[77px] items-center justify-center rounded-lg bg-backgroundItems">
         <Image
           alt={orderProduct.product.name}
@@ -25,24 +26,24 @@ const OrderProductsItem = ({ orderProduct }: OrderProductsItemProps) => {
         />
       </div>
 
-      <div className="flex flex-col gap-1 ">
-        <div className="flex px-3 py-1 rounded-lg bg-backgroundItems">
+      <div className="flex flex-col gap-1">
+        <div className="flex rounded-lg bg-backgroundItems px-3 py-1">
           <p className="text-[11px]">
-            Vendigo e entregue por: {" "}
+            Vendigo e entregue por:{" "}
             <span className="font-bold text-dourado">Gold Informatica</span>
           </p>
         </div>
         <p>{orderProduct.product.name}</p>
 
         <div className="flex items-center gap-1">
-          <p>R$ {productWithTotalPrice.totalPrice.toFixed(2)}</p>
-          {productWithTotalPrice.discountPercentage > 0 && (
+          <p>R$ {productTotalPrice.toFixed(2)}</p>
+          {orderProduct.discountPercentage > 0 && (
             <p className="text-xs line-through opacity-60">
-              R$ {Number(productWithTotalPrice.basePrice).toFixed(2)}
+              R$ {Number(orderProduct.basePrice).toFixed(2)}
             </p>
           )}
         </div>
-        <p className=" text-xs opacity-65"> Qntd: {orderProduct.quantity}</p>
+        <p className="text-xs opacity-65"> Qntd: {orderProduct.quantity}</p>
       </div>
     </div>
   );
