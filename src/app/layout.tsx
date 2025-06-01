@@ -10,7 +10,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Gold Informàtica",
-  description: "loja de periféricos e acessórios de informática",
+  description: "Loja de periféricos e acessórios de informática",
 };
 
 export default function RootLayout({
