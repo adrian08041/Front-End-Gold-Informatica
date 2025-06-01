@@ -13,7 +13,7 @@ interface OrderProductsItemProps {
 const OrderProductsItem = ({ orderProduct }: OrderProductsItemProps) => {
   const productWithTotalPrice = ComputeProductTotalPrice(orderProduct.product);
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center gap-4 w-full">
       <div className="flex h-[77px] w-[77px] items-center justify-center rounded-lg bg-backgroundItems">
         <Image
           alt={orderProduct.product.name}
@@ -25,7 +25,7 @@ const OrderProductsItem = ({ orderProduct }: OrderProductsItemProps) => {
         />
       </div>
 
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1 ">
         <div className="flex px-3 py-1 rounded-lg bg-backgroundItems">
           <p className="text-[11px]">
             Vendigo e entregue por: {" "}
@@ -42,6 +42,7 @@ const OrderProductsItem = ({ orderProduct }: OrderProductsItemProps) => {
             </p>
           )}
         </div>
+        <p className=" text-xs opacity-65"> Qntd: {orderProduct.quantity}</p>
       </div>
     </div>
   );

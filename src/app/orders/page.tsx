@@ -13,7 +13,7 @@ async function OrderPage() {
   if (!user) {
     return (
       <div className="flex h-full w-full items-center justify-center">
-        <p className="text-center font-semibold">
+        <p className="text-center font-semibold text-white">
           Você precisa estar logado para acessar essa página.
         </p>
       </div>
