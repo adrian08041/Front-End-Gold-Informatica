@@ -5,7 +5,7 @@ import { authOptions } from "@/lib/auth";
 import { prismaClient } from "@/lib/prisma";
 import { PackageSearchIcon, ShapesIcon } from "lucide-react";
 import { getServerSession } from "next-auth";
-import OrderItem from "./components/order-item";
+import OrderItem from "../../../components/ui/order-item";
 
 async function OrderPage() {
   const user = await getServerSession(authOptions);
@@ -41,7 +41,7 @@ async function OrderPage() {
           Meus Pedidos
         </Badge>
 
-        <div className="flex flex-col gap-5 mt-5">
+        <div className="mt-5 flex flex-col gap-5">
           {orders.map((order) => (
             <OrderItem key={order.id} order={order} />
           ))}

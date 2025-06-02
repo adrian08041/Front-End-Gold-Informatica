@@ -1,9 +1,9 @@
 "use client";
 
-import { ProductWithTotalPrice } from "@/helpers/product";
+import { ProductTotalPrice } from "@/helpers/product";
 import { createContext, useEffect, useMemo, useState } from "react";
 
-export interface CartProduct extends ProductWithTotalPrice {
+export interface CartProduct extends ProductTotalPrice {
   quantity: number;
 }
 
@@ -33,30 +33,33 @@ export const CartContext = createContext<ICartContext>({
 const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const [products, setProducts] = useState<CartProduct[]>([]);
 
-  
   useEffect(() => {
-    const storagedProducts = localStorage.getItem("@gold-informatica/cart-products");
+    const storagedProducts = localStorage.getItem(
+      "@gold-informatica/cart-products",
+    );
     if (storagedProducts) {
       setProducts(JSON.parse(storagedProducts));
     }
   }, []);
 
-  
   useEffect(() => {
-    localStorage.setItem("@gold-informatica/cart-products", JSON.stringify(products));
+    localStorage.setItem(
+      "@gold-informatica/cart-products",
+      JSON.stringify(products),
+    );
   }, [products]);
 
   const subTotal = useMemo(() => {
     return products.reduce(
       (acc, product) => acc + Number(product.basePrice) * product.quantity,
-      0
+      0,
     );
   }, [products]);
 
   const total = useMemo(() => {
     return products.reduce(
       (acc, product) => acc + Number(product.totalPrice) * product.quantity,
-      0
+      0,
     );
   }, [products]);
 
@@ -70,8 +73,8 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
         prev.map((item) =>
           item.id === product.id
             ? { ...item, quantity: item.quantity + product.quantity }
-            : item
-        )
+            : item,
+        ),
       );
     } else {
       setProducts((prev) => [...prev, product]);
@@ -84,19 +87,17 @@ const CartProvider = ({ children }: { children: React.ReactNode }) => {
         .map((item) =>
           item.id === productId
             ? { ...item, quantity: item.quantity - 1 }
-            : item
+            : item,
         )
-        .filter((item) => item.quantity > 0)
+        .filter((item) => item.quantity > 0),
     );
   };
 
   const increaseProductQuantity = (productId: string) => {
     setProducts((prev) =>
       prev.map((item) =>
-        item.id === productId
-          ? { ...item, quantity: item.quantity + 1 }
-          : item
-      )
+        item.id === productId ? { ...item, quantity: item.quantity + 1 } : item,
+      ),
     );
   };
 
