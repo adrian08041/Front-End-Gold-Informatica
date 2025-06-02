@@ -3,7 +3,7 @@ import { Badge } from "./badge";
 import { useContext } from "react";
 import { CartContext } from "@/providers/cart";
 import CartItem from "./cart-item";
-import { ComputeProductTotalPrice } from "@/helpers/product";
+import { computeProductTotalPrice } from "@/helpers/product";
 import { Separator } from "@radix-ui/react-separator";
 import { ScrollArea } from "./scroll-area";
 import { Button } from "./button";
@@ -48,7 +48,7 @@ const Cart = () => {
                 products.map((product) => (
                   <CartItem
                     key={product.id}
-                    product={ComputeProductTotalPrice(product as any) as any}
+                    product={computeProductTotalPrice(product as any) as any}
                   />
                 ))
               ) : (
