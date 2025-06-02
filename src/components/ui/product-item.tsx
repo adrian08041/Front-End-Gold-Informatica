@@ -1,13 +1,12 @@
-import { ProductWithTotalPrice } from "@/helpers/product";
+import { ProductTotalPrice } from "@/helpers/product";
 
 import Image from "next/image";
-import { Badge } from "./badge";
-import { ArrowDown, ArrowDownIcon } from "lucide-react";
+
 import Link from "next/link";
 import DiscountBadge from "./discount-badge";
 
 interface ProductItemProps {
-  product: ProductWithTotalPrice;
+  product: ProductTotalPrice;
 }
 
 const ProductItem = ({ product }: ProductItemProps) => {
