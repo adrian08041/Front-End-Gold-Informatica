@@ -6,9 +6,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ProductWithTotalPrice } from "@/helpers/product";
+import { ProductTotalPrice } from "@/helpers/product";
 
-export type ProductWithTotalPriceAndCategory = ProductWithTotalPrice & {
+export type ProductWithTotalPriceAndCategory = ProductTotalPrice & {
   category: {
     name: string;
   };

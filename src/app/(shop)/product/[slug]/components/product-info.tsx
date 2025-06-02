@@ -2,14 +2,14 @@
 
 import { Button } from "@/components/ui/button";
 import DiscountBadge from "@/components/ui/discount-badge";
-import { ProductWithTotalPrice } from "@/helpers/product";
+import { ProductTotalPrice } from "@/helpers/product";
 import { CartContext } from "@/providers/cart";
 
 import { ArrowLeftIcon, ArrowRightIcon, TruckIcon } from "lucide-react";
 import { useContext, useState } from "react";
 
 interface ProductInfoProps {
-  product: ProductWithTotalPrice;
+  product: ProductTotalPrice;
 }
 
 const ProductInfo = ({ product: product }: ProductInfoProps) => {
