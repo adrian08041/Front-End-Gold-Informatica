@@ -30,21 +30,21 @@ const ProductInfo = ({ product: product }: ProductInfoProps) => {
   };
 
   return (
-    <div className="flex flex-col px-5 text-white">
-      <h2 className="text-lg">{product.name}</h2>
+    <div className="flex flex-col px-5 text-white lg:w-[40%] lg:rounded-lg lg:bg-backgroundItems lg:p-10">
+      <h2 className="text-lg lg:text-2xl">{product.name}</h2>
 
       <div className="flex items-center gap-2">
-        <h1 className="gap-2 text-xl font-bold">
-          R$ {product.totalPrice.toFixed(2)}
+        <h1 className="gap-2 text-xl font-bold lg:text-3xl">
+          R$ {Number(product.totalPrice)?.toFixed(2)}
         </h1>
         {product.discountPercentage > 0 && (
-          <DiscountBadge variant={"secondary"}>
+          <DiscountBadge className="" variant={"secondary"}>
             {product.discountPercentage}
           </DiscountBadge>
         )}
       </div>
       {product.discountPercentage > 0 && (
-        <p className="text-sm line-through opacity-75">
+        <p className="text-sm line-through opacity-75 lg:text-base">
           R$ {Number(product.basePrice).toFixed(2)}
         </p>
       )}
@@ -79,7 +79,7 @@ const ProductInfo = ({ product: product }: ProductInfoProps) => {
         Adicionar ao carrinho
       </Button>
 
-      <div className="mt-5 flex items-center justify-between rounded bg-backgroundItems px-5 py-2">
+      <div className="mt-5 flex items-center justify-between rounded bg-backgroundItems px-5 py-2 lg:bg-[#2A2A2A]">
         <div className="flex items-center gap-2">
           <TruckIcon />
           <div className="flex flex-col">

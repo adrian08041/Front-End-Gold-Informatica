@@ -28,7 +28,6 @@ const CategoriesTable = ({ categories }: CategoriesTableProps) => {
         <TableRow>
           <TableHead className="text-white">Nome</TableHead>
           <TableHead className="text-white">Categoria</TableHead>
-          <TableHead className="text-white">Porcentagem das Vendas</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -39,7 +38,6 @@ const CategoriesTable = ({ categories }: CategoriesTableProps) => {
             <TableCell className="text-white">
               {categories.products.length}
             </TableCell>
-            <TableCell className="text-white">0%</TableCell>
           </TableRow>
         ))}
       </TableBody>

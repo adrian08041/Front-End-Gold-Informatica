@@ -3,7 +3,7 @@ import { Badge } from "./badge";
 import { useContext } from "react";
 import { CartContext } from "@/providers/cart";
 import CartItem from "./cart-item";
-import { computeProductTotalPrice } from "@/helpers/product";
+import { computeProduct, computeProductTotalPrice } from "@/helpers/product";
 import { Separator } from "@radix-ui/react-separator";
 import { ScrollArea } from "./scroll-area";
 import { Button } from "./button";
@@ -40,7 +40,7 @@ const Cart = () => {
 
       {/*  renderizar produtos */}
 
-      <div className="flex h-full flex-col gap-5 overflow-hidden">
+      <div className="flex h-full flex-col gap-5 overflow-hidden ">
         <div className="flex h-full flex-col">
           <ScrollArea className="h-full">
             <div className="flex h-full flex-col gap-6">
@@ -48,7 +48,7 @@ const Cart = () => {
                 products.map((product) => (
                   <CartItem
                     key={product.id}
-                    product={computeProductTotalPrice(product as any) as any}
+                    product={computeProduct(product as any) as any}
                   />
                 ))
               ) : (

@@ -1,16 +1,19 @@
 import { CartContext, CartProduct } from "@/providers/cart";
 import Image from "next/image";
 import { Button } from "./button";
-import { ArrowLeftIcon, ArrowRightIcon, Trash, TrashIcon } from "lucide-react";
+import { ArrowLeftIcon, ArrowRightIcon, TrashIcon } from "lucide-react";
 import { useContext } from "react";
 
 interface CartItemProps {
   product: CartProduct;
 }
 
-const CartItem = ({ product }: CartItemProps) => {
-  const { decreaseProductQuantity, increaseProductQuantity, removeProductFromCart } =
-    useContext(CartContext);
+export function CartItem({ product }: CartItemProps) {
+  const {
+    decreaseProductQuantity,
+    increaseProductQuantity,
+    removeProductFromCart,
+  } = useContext(CartContext);
 
   const handleDecreaseProductQuantityClick = () => {
     decreaseProductQuantity(product.id);
@@ -20,69 +23,74 @@ const CartItem = ({ product }: CartItemProps) => {
     increaseProductQuantity(product.id);
   };
 
-   const handleRemoveProductQuantityClick = () => {
+  const handleRemoveProductClick = () => {
     removeProductFromCart(product.id);
   };
 
   return (
     <div className="flex items-center justify-between">
-      <div className="items flex gap-4">
-        {/* PARTE DIREITA FOTO E NOME  */}
+      <div className="flex items-center gap-4">
+        {/* PARTE DIREITA (FOTO E NOME) */}
 
-        <div className="flex h-[77px] w-[77px] items-center justify-center rounded-lg bg-backgroundItems">
+        <div className="flex h-[77px] w-[77px] items-center justify-center rounded-lg bg-backgroundItems lg:h-[120px] lg:w-[120px]">
           <Image
-            src={product.imageUrls[0]}
+            src={product.imageUrls?.[0]}
             width={0}
             height={0}
             sizes="100vw"
             alt={product.name}
-            className="max-w-[80%]: h-auto max-h-[70%] w-auto"
+            className="h-auto max-h-[70%] w-auto max-w-[80%]"
           />
         </div>
 
-        <div className="intems-center flex flex-col justify-center">
-          <p className="text-xs">{product.name}</p>
+        <div className="flex flex-col gap-1 ">
+          <p className="text-xs lg:text-sm">{product.name}</p>
 
           <div className="flex items-center gap-2">
-            <p className="text-sm font-bold">
-              R$ {product.totalPrice.toFixed(2)}
+            <p className="text-sm font-bold ">
+              R$ {Number(product.totalPrice)?.toFixed(2)}
             </p>
             {product.discountPercentage > 0 && (
-              <p className="text-xs line-through opacity-75">
+              <p className="text-xs line-through opacity-75 lg:text-sm">
                 R$ {Number(product.basePrice).toFixed(2)}
               </p>
             )}
           </div>
-          <div className="flex items-center gap-2">
+
+          <div className="flex items-center gap-1 lg:gap-3">
             <Button
-              className="h-8 w-8"
               size="icon"
               variant="ghost"
+              className="h-8 w-8 lg:h-9 lg:w-9"
               onClick={handleDecreaseProductQuantityClick}
             >
-              <ArrowLeftIcon size={12} />
+              <ArrowLeftIcon className="h-4 w-4 lg:h-5 lg:w-5" />
             </Button>
-            <span className="gap-1 text-xs">{product.quantity}</span>
+
+            <span className="text-xs lg:text-sm">{product.quantity}</span>
+
             <Button
-              className="h-8 w-8"
               size="icon"
               variant="ghost"
+              className="h-8 w-8 lg:h-9 lg:w-9"
               onClick={handleIncreaseProductQuantityClick}
             >
-              <ArrowRightIcon size={12} />
+              <ArrowRightIcon className="h-4 w-4 lg:h-5 lg:w-5" />
             </Button>
           </div>
         </div>
       </div>
-      <div>
-        {/* PARTE ESQUERDA BOTAO DE DELETAR */}
 
-        <Button className="h-8 w-8" size="icon" variant="ghost" onClick={handleRemoveProductQuantityClick}>
-          <TrashIcon size={16} />
-        </Button>
-      </div>
+      <Button
+        size="icon"
+        variant="ghost"
+        onClick={handleRemoveProductClick}
+        className="h-8 w-8 lg:h-9 lg:w-9"
+      >
+        <TrashIcon className="h-4 w-4 lg:h-5 lg:w-5" />
+      </Button>
     </div>
   );
-};
+}
 
 export default CartItem;

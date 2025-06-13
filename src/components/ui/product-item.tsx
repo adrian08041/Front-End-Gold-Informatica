@@ -46,7 +46,7 @@ const ProductItem = ({ product }: ProductItemProps) => {
               <>
                 <p className="font-semibold">
                   {" "}
-                  R$ {product.totalPrice.toFixed(2)}{" "}
+                  R$ {Number(product.totalPrice)?.toFixed(2)}{" "}
                 </p>
                 <p className="text-xs line-through opacity-75">
                   R$ {Number(product.basePrice).toFixed(2)}
@@ -54,7 +54,7 @@ const ProductItem = ({ product }: ProductItemProps) => {
               </>
             ) : (
               <p className="text-sm font-semibold">
-                R$ {product.basePrice.toFixed(2)}
+                R$ {Number(product.basePrice)?.toFixed(2)}
               </p>
             )}
           </div>

@@ -89,6 +89,7 @@ async function main() {
         categoryId: mousesCategory.id,
         discountPercentage: 0,
       },
+      
     ];
 
     await prisma.product.createMany({

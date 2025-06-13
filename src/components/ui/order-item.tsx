@@ -75,7 +75,7 @@ const OrderItem = ({ order }: OrderItemProps) => {
                 </div>
                 <div>
                   <p className="font-bold">Pagamento</p>
-                  <p className="opacity-60"> Cartão </p>
+                  <p className="opacity-60">Cartão</p>
                 </div>
               </div>
 
