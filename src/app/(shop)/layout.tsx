@@ -26,8 +26,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="flex h-full flex-col">
-          <QueryClientProvider client={queryClient}>
+        <QueryClientProvider client={queryClient}>
+          <div className="flex h-full flex-col">
             <AuthProvider>
               <CartProvider>
                 <Header />
@@ -35,8 +35,8 @@ export default function RootLayout({
                 <Footer />
               </CartProvider>
             </AuthProvider>
-          </QueryClientProvider>
-        </div>
+          </div>
+        </QueryClientProvider>
       </body>
     </html>
   );

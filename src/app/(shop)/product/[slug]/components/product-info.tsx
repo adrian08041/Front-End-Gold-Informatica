@@ -52,6 +52,7 @@ const ProductInfo = ({ product: product }: ProductInfoProps) => {
       <div className="mt-4 flex items-center gap-2">
         <Button
           onClick={handleDecreaseQuantityClick}
+          value={quantity}
           size="icon"
           variant="ghost"
         >

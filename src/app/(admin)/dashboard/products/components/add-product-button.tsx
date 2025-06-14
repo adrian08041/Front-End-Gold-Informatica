@@ -20,6 +20,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
+import Select from "react-select";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PlusIcon } from "lucide-react";
 import { Resolver, useForm } from "react-hook-form";
@@ -27,14 +29,15 @@ import { z } from "zod";
 import { Input } from "@/components/ui/input";
 import { NumericFormat } from "react-number-format";
 import { UploadButton } from "@/utils/uploadthing";
+import ImageUploader from "@/components/ui/UploadButton";
+import { useCreateProduct } from "@/service/hooks/productQuery";
+import { useRef, useState } from "react";
+import { useCategoryQuery } from "@/service/hooks/categoryQuery";
 
 const formSchema = z
   .object({
     name: z.string().trim().min(1, {
       message: "O nome do produto é obrigatório.",
-    }),
-    slug: z.string().trim().min(1, {
-      message: "O slug do produto é obrigatório.",
     }),
     description: z.string().trim().min(1, {
       message: "A descrição do produto é obrigatória.",
@@ -57,19 +60,76 @@ const formSchema = z
   })
   .required();
 
-const onSubmit = (data: FormSchema) => {
-  console.log(data);
-};
-
 type FormSchema = z.infer<typeof formSchema>;
 
-const AddProductButton = () => {
+export default function AddProductButton() {
+  const createProduct = useCreateProduct();
+  const [open, setOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleOpenChange = (isOpen: boolean) => {
+    setOpen(isOpen);
+  };
+
+  const onSubmit = async (data: FormSchema) => {
+    setIsLoading(true);
+    const files = data.imageUrls as File[];
+    const formData = new FormData();
+    files.forEach((file) => formData.append("images", file));
+
+    const res = await fetch("/api/upload", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!res.ok) {
+      console.error("Erro ao enviar imagens");
+      return;
+    }
+
+    const uploadedUrls: string[] = await res.json(); // Supondo que o backend retorne um array de URLs
+
+    // pega o name do produto e transforma em slug
+    const slug = data.name
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "");
+
+    const payload = {
+      ...data,
+      slug: slug, // usa o slug gerado
+      imageUrls: uploadedUrls, // substitui os arquivos por URLs
+    };
+
+    console.log("Payload final para envio:", payload);
+
+    createProduct
+      .mutateAsync(payload)
+      .then(() => {
+        console.log("Produto criado com sucesso!");
+        const { data: response } = createProduct;
+        console.log("Resposta do servidor:", response);
+        handleOpenChange(false);
+        // if(response?.data)
+        // handleOpenChange(false);
+        // Aqui você pode adicionar lógica para fechar o modal ou limpar o formulário
+      })
+      .catch((error) => {
+        console.error("Erro ao criar produto:", error);
+        // Aqui você pode adicionar lógica para exibir uma mensagem de erro
+      })
+      .finally(() => {
+        setIsLoading(false);
+        // Aqui você pode adicionar lógica para resetar o formulário ou fechar o modal
+      });
+    // Aqui você pode enviar isso para seu banco/API
+  };
+
   const form = useForm<FormSchema>({
     shouldUnregister: true,
     resolver: zodResolver(formSchema) as Resolver<FormSchema, any>,
     defaultValues: {
       name: "",
-      slug: "",
       description: "",
       categoryId: "",
       discountPercentage: 0,
@@ -78,8 +138,16 @@ const AddProductButton = () => {
     },
   });
 
+  const { data: categories } = useCategoryQuery({});
+
+  const options =
+    categories?.data?.map((category) => ({
+      value: category.id,
+      label: category.name,
+    })) ?? [];
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         <Button variant="secondary" className="flex gap-2">
           <PlusIcon size={18} />
@@ -105,21 +173,6 @@ const AddProductButton = () => {
                   <FormLabel>Nome do produto</FormLabel>
                   <FormControl>
                     <Input placeholder="Digite o nome do produto" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* Slug */}
-            <FormField
-              control={form.control}
-              name="slug"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Slug do produto</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Digite o slug" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -152,9 +205,17 @@ const AddProductButton = () => {
                 <FormItem>
                   <FormLabel>Categoria do produto</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Digite a categoria do produto"
-                      {...field}
+                    <Select<{ value: string; label: string }>
+                      options={options}
+                      noOptionsMessage={() => "Nenhuma categoria encontrada"}
+                      value={
+                        options.find(
+                          (option) => option.value === field.value,
+                        ) || null
+                      }
+                      onChange={(selected) =>
+                        field.onChange(selected ? selected.value : "")
+                      }
                     />
                   </FormControl>
                   <FormMessage />
@@ -171,15 +232,10 @@ const AddProductButton = () => {
                 <FormItem>
                   <FormLabel>Imagens do produto</FormLabel>
                   <FormControl>
-                    <Input
-                      type="file"
-                      multiple
-                      name={field.name} // conecta o nome
-                      ref={field.ref} // conecta o ref para validação
-                      onChange={(e) => field.onChange(e.target.files)} // envia FileList
-                    
+                    <ImageUploader
+                      value={field.value}
+                      onChange={field.onChange}
                     />
-                    
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -257,13 +313,14 @@ const AddProductButton = () => {
               <DialogClose asChild>
                 <Button variant="outline">Cancelar</Button>
               </DialogClose>
-              <Button type="submit">Salvar </Button>
+
+              <Button type="submit" disabled={isLoading}>
+                {isLoading ? "Salvando..." : "Salvar"}
+              </Button>
             </DialogFooter>
           </form>
         </Form>
       </DialogContent>
     </Dialog>
   );
-};
-
-export default AddProductButton;
+}

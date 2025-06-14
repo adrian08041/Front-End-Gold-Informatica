@@ -1,6 +1,6 @@
 import { ReactQueryKeysEnum } from "@/@types/enums/reactQuery";
-import { ProductFindAllRequest } from "../types/product";
-import { useQuery } from "@tanstack/react-query";
+import { CreateProductRequest, ProductFindAllRequest } from "../types/product";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { ProductRequest } from "../requests";
 
 export function useProductQueryKey(
@@ -32,4 +32,12 @@ export function useProductOneBySlugQueryKey(slug: string) {
       return data;
     },
   });
+}
+
+export function useCreateProduct() {
+  const mutation = useMutation({
+    mutationFn: (product: CreateProductRequest) =>
+      ProductRequest.createProduct(product),
+  });
+  return mutation;
 }
