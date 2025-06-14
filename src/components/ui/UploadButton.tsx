@@ -2,7 +2,6 @@
 
 import { useRef } from "react";
 import { UploadCloud, X } from "lucide-react";
-import Image from "next/image";
 
 type Props = {
   value: File[]; // recebe os arquivos do react-hook-form

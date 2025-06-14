@@ -1,14 +1,23 @@
 import { ApiResult } from "@/@types/API/ApiResult";
 import { api } from "../api";
-import { CreateProductRequest, ProductResponse } from "../types";
-import { CategoriesResponse } from "../types/category";
+import { CategoriesResponse, CreateCategoryRequest } from "../types/category";
 
-export function findAllCategory(
-  page?: number,
-  perPage?: number,
-  name?: string,
-) {
+interface FindCategoryParams {
+  page?: number;
+  perPage?: number;
+  name?: string;
+}
+
+export function findAllCategory(params: FindCategoryParams) {
   return api.get<ApiResult<CategoriesResponse[]>>("/category", {
-    params: { page, perPage, name },
+    params,
   });
+}
+
+export function createCategory(category: CreateCategoryRequest) {
+  return api.post<ApiResult<CategoriesResponse>>("/category", category);
+}
+
+export function findOneCategoryBySlug(slug: string) {
+  return api.get<ApiResult<CategoriesResponse>>(`/category/slug/${slug}`);
 }

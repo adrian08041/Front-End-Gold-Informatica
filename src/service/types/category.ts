@@ -11,3 +11,10 @@ export type CategoryFindAllRequest = {
   perPage?: number;
   name?: string;
 };
+
+export type CreateCategoryRequest = {
+  name: string;
+  slug: string;
+
+  imageUrls?: string[];
+};

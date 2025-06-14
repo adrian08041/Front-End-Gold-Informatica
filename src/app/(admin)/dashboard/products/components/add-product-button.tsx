@@ -28,10 +28,10 @@ import { Resolver, useForm } from "react-hook-form";
 import { z } from "zod";
 import { Input } from "@/components/ui/input";
 import { NumericFormat } from "react-number-format";
-import { UploadButton } from "@/utils/uploadthing";
+
 import ImageUploader from "@/components/ui/UploadButton";
 import { useCreateProduct } from "@/service/hooks/productQuery";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useCategoryQuery } from "@/service/hooks/categoryQuery";
 
 const formSchema = z
@@ -291,23 +291,6 @@ export default function AddProductButton() {
                 </FormItem>
               )}
             />
-            {/* <FormField
-              control={form.control}
-              name="stock"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Estoque</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      placeholder="Digite a quantidade em estoque"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */}
 
             <DialogFooter>
               <DialogClose asChild>

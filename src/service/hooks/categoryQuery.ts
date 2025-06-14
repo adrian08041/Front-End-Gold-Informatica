@@ -1,8 +1,10 @@
 import { ReactQueryKeysEnum } from "@/@types/enums/reactQuery";
-import { CreateProductRequest, ProductFindAllRequest } from "../types/product";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { CategoryRequest, ProductRequest } from "../requests";
-import { CategoryFindAllRequest } from "../types/category";
+import { CategoryRequest } from "../requests";
+import {
+  CategoryFindAllRequest,
+  CreateCategoryRequest,
+} from "../types/category";
 
 export function useCategoryQuery(
   categoryFindAllRequest: CategoryFindAllRequest,
@@ -15,12 +17,20 @@ export function useCategoryQuery(
       categoryFindAllRequest.perPage,
     ],
     queryFn: async () => {
-      const { data } = await CategoryRequest.findAllCategory(
-        categoryFindAllRequest.page,
-        categoryFindAllRequest.perPage,
-        categoryFindAllRequest.name,
-      );
+      const { data } = await CategoryRequest.findAllCategory({
+        page: categoryFindAllRequest.page,
+        perPage: categoryFindAllRequest.perPage,
+        name: categoryFindAllRequest.name,
+      });
       return data;
     },
   });
+}
+
+export function useCreateCategory() {
+  const mutation = useMutation({
+    mutationFn: (category: CreateCategoryRequest) =>
+      CategoryRequest.createCategory(category),
+  });
+  return mutation;
 }
