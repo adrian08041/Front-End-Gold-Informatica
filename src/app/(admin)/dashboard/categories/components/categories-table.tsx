@@ -27,7 +27,7 @@ const CategoriesTable = ({ categories }: CategoriesTableProps) => {
       <TableHeader>
         <TableRow>
           <TableHead className="text-white">Nome</TableHead>
-          <TableHead className="text-white">Categoria</TableHead>
+          <TableHead className="text-white">Quantidade</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
