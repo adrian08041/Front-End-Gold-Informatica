@@ -2,6 +2,7 @@
 
 import {
   HomeIcon,
+  LayoutDashboardIcon,
   ListOrderedIcon,
   LogInIcon,
   LogOutIcon,
@@ -142,6 +143,18 @@ const Header = () => {
                 >
                   <ListOrderedIcon size={16} />
                   Catàlago
+                </Button>
+              </Link>
+            </SheetClose>
+
+            <SheetClose asChild>
+              <Link href="/dashboard">
+                <Button
+                  variant={"outline"}
+                  className="w-full justify-start border-backgroundItems bg-backgroundItems text-white"
+                >
+                  <LayoutDashboardIcon size={16} />
+                  Dashboard
                 </Button>
               </Link>
             </SheetClose>
