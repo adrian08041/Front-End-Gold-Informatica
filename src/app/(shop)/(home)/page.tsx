@@ -7,7 +7,7 @@ import SectionTitle from "@/components/ui/section-title";
 import ProductList from "@/components/ui/product-list";
 import Link from "next/link";
 import { ProductQuery } from "@/service/hooks";
-import ImageUploader from "@/components/ui/UploadButton";
+
 
 export default function Home() {
   const { data: response, isLoading } = ProductQuery.useProductQueryKey({

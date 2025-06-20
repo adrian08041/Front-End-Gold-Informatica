@@ -1,3 +1,5 @@
+"use client";
+import { ReactQueryKeysEnum } from "@/@types/enums/reactQuery";
 import {
   Table,
   TableBody,
@@ -7,6 +9,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { ProductTotalPrice } from "@/helpers/product";
+import { useDeleteProduct } from "@/service/hooks/productQuery";
+import { useQueryClient } from "@tanstack/react-query";
+import { use, useCallback } from "react";
 
 export type ProductWithTotalPriceAndCategory = ProductTotalPrice & {
   category: {
@@ -19,6 +24,22 @@ interface ProductsTableProps {
 }
 
 const ProductsTable = ({ products }: ProductsTableProps) => {
+  const queryCliente = useQueryClient();
+  const deleteProduct = useDeleteProduct();
+
+  const handleDeleteProduct = useCallback(
+    (id: string) => {
+      console.log("Deleting product with ID:", id);
+      deleteProduct.mutateAsync(id).then(() => {
+        console.log("Product deleted successfully");
+        queryCliente.invalidateQueries({
+          queryKey: [ReactQueryKeysEnum.PRODUCTS_FIND_ALL],
+        });
+      });
+    },
+    [deleteProduct, queryCliente],
+  );
+
   return (
     <Table>
       <TableHeader>
@@ -28,6 +49,7 @@ const ProductsTable = ({ products }: ProductsTableProps) => {
           <TableHead className="text-white">Preço total</TableHead>
           <TableHead className="text-white">Preço base</TableHead>
           <TableHead className="text-white">Vendidos</TableHead>
+          <TableHead className="text-white">Ações</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -48,6 +70,15 @@ const ProductsTable = ({ products }: ProductsTableProps) => {
             </TableCell>
 
             <TableCell className="text-white">0</TableCell>
+
+            <TableCell className="text-white">
+              <button
+                className="text-red-500 hover:text-red-400"
+                onClick={() => handleDeleteProduct(product.id)}
+              >
+                Excluir
+              </button>
+            </TableCell>
           </TableRow>
         ))}
       </TableBody>

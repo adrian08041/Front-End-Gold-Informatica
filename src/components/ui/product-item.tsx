@@ -44,16 +44,16 @@ const ProductItem = ({ product }: ProductItemProps) => {
           <div className="flex items-center gap-2 text-white">
             {product.discountPercentage > 0 ? (
               <>
-                <p className="font-semibold">
+                <p className="truncate font-semibold lg:text-lg">
                   {" "}
                   R$ {Number(product.totalPrice)?.toFixed(2)}{" "}
                 </p>
-                <p className="text-xs line-through opacity-75">
+                <p className="truncate text-xs line-through opacity-75 lg:text-sm">
                   R$ {Number(product.basePrice).toFixed(2)}
                 </p>
               </>
             ) : (
-              <p className="text-sm font-semibold">
+              <p className="truncate text-sm font-semibold">
                 R$ {Number(product.basePrice)?.toFixed(2)}
               </p>
             )}

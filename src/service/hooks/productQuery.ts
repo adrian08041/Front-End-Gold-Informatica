@@ -41,3 +41,10 @@ export function useCreateProduct() {
   });
   return mutation;
 }
+
+export function useDeleteProduct() {
+  const mutation = useMutation({
+    mutationFn: (id: string) => ProductRequest.deleteProduct(id),
+  });
+  return mutation;
+}

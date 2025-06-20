@@ -15,3 +15,7 @@ export function findOneProductsBySlug(slug: string) {
 export function createProduct(product: CreateProductRequest) {
   return api.post("/product", product);
 }
+
+export function deleteProduct(id: string) {
+  return api.delete(`/product/${id}`);
+}

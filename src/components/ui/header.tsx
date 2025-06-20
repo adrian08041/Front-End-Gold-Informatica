@@ -11,6 +11,7 @@ import {
   PercentIcon,
   ShoppingCartIcon,
 } from "lucide-react";
+import Cookies from "js-cookie";
 import { Button } from "./button";
 import { Card } from "./card";
 import {
@@ -20,6 +21,7 @@ import {
   SheetHeader,
   SheetClose,
 } from "./sheet";
+import Cookie from "js-cookie";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 import logo from "/public/assets/logo.png";
@@ -29,17 +31,75 @@ import { Separator } from "./separator";
 import Image from "next/image";
 import Link from "next/link";
 import Cart from "./cart";
+import { useEffect, useState } from "react";
+import { getUserRoleFromToken } from "@/utils/token";
+import { RoleEnum } from "@/@types/enums/role";
+import { useRouter } from "next/navigation";
+
+const dataHeader = [
+  {
+    name: "Inicio",
+    href: "/",
+    role: [RoleEnum.ADMIN, RoleEnum.USER, RoleEnum.GUEST],
+    icon: <HomeIcon size={16} />,
+  },
+  {
+    name: "Meus Pedidos",
+    href: "/orders",
+    role: [RoleEnum.ADMIN, RoleEnum.USER],
+    icon: <PackageSearchIcon size={16} />,
+  },
+  {
+    name: "Ofertas",
+    href: "/deals",
+    role: [RoleEnum.USER, RoleEnum.ADMIN, RoleEnum.GUEST],
+    icon: <PercentIcon size={16} />,
+  },
+  {
+    name: "Catalogo",
+    href: "/catalog",
+    role: [RoleEnum.USER, RoleEnum.ADMIN, RoleEnum.GUEST],
+    icon: <ListOrderedIcon size={16} />,
+  },
+  {
+    name: "Dashboard",
+    href: "/dashboard",
+    role: [RoleEnum.ADMIN],
+    icon: <LayoutDashboardIcon size={16} />,
+  },
+];
 
 const Header = () => {
+  const [role, setRole] = useState<RoleEnum>(RoleEnum.GUEST);
+  const router = useRouter();
+
+  useEffect(() => {
+    const roleToken = getUserRoleFromToken();
+    if (
+      roleToken &&
+      Object.values(RoleEnum).includes(roleToken as unknown as RoleEnum)
+    ) {
+      setRole(roleToken as unknown as RoleEnum);
+    } else {
+      setRole(RoleEnum.GUEST);
+    }
+  }, []);
+
   const { status, data } = useSession();
 
   const handleLogoutClick = async () => {
-    await signOut();
+    Cookie.remove("auth_token");
+    setRole(RoleEnum.GUEST);
   };
 
   const handleLoginClick = async () => {
-    await signIn();
+    // await signIn();
+    router.push("/login");
   };
+
+  const filteredMenu = dataHeader.filter(
+    (item) => !item.role || item.role.includes(role),
+  );
 
   return (
     <Card className="flex items-center justify-between border-preto2 bg-black p-[1.875rem]">
@@ -80,29 +140,21 @@ const Header = () => {
           )}
 
           <div className="mt-2 flex flex-col gap-2">
-            {status === "unauthenticated" && (
-              <Button
-                onClick={handleLoginClick}
-                variant={"outline"}
-                className="w-full justify-start border-backgroundItems bg-backgroundItems text-white"
-              >
-                <LogInIcon />
-                Fazer Login
-              </Button>
-            )}
+            {filteredMenu.map((item) => (
+              <SheetClose asChild key={item.name}>
+                <Link href={item.href}>
+                  <Button
+                    variant={"outline"}
+                    className="w-full justify-start border-backgroundItems bg-backgroundItems text-white"
+                  >
+                    {item.icon}
+                    {item.name}
+                  </Button>
+                </Link>
+              </SheetClose>
+            ))}
 
-            {status === "authenticated" && (
-              <Button
-                onClick={handleLogoutClick}
-                variant={"outline"}
-                className="w-full justify-start border-backgroundItems bg-backgroundItems text-white"
-              >
-                <LogOutIcon />
-                Fazer Logout
-              </Button>
-            )}
-
-            <SheetClose asChild>
+            {/* <SheetClose asChild>
               <Link href="/">
                 <Button
                   variant={"outline"}
@@ -112,8 +164,8 @@ const Header = () => {
                   Inicio
                 </Button>
               </Link>
-            </SheetClose>
-            <SheetClose asChild>
+            </SheetClose> */}
+            {/* <SheetClose asChild>
               <Link href="/orders">
                 <Button
                   variant={"outline"}
@@ -157,7 +209,32 @@ const Header = () => {
                   Dashboard
                 </Button>
               </Link>
-            </SheetClose>
+            </SheetClose> */}
+            {/* {status === "authenticated" && ( */}
+            {role !== RoleEnum.GUEST && (
+              <Button
+                onClick={handleLogoutClick}
+                variant={"outline"}
+                className="w-full justify-start border-backgroundItems bg-backgroundItems text-white"
+              >
+                <LogOutIcon />
+                Fazer Logout
+              </Button>
+            )}
+            {/* )} */}
+
+            {/* {status === "unauthenticated" && (
+            )} */}
+            {role === RoleEnum.GUEST && (
+              <Button
+                onClick={handleLoginClick}
+                variant={"outline"}
+                className="w-full justify-start border-backgroundItems bg-backgroundItems text-white"
+              >
+                <LogInIcon />
+                Fazer Login
+              </Button>
+            )}
           </div>
         </SheetContent>
       </Sheet>
