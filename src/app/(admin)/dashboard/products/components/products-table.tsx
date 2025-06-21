@@ -11,7 +11,8 @@ import {
 import { ProductTotalPrice } from "@/helpers/product";
 import { useDeleteProduct } from "@/service/hooks/productQuery";
 import { useQueryClient } from "@tanstack/react-query";
-import { use, useCallback } from "react";
+import { Trash2 } from "lucide-react";
+import {  useCallback } from "react";
 
 export type ProductWithTotalPriceAndCategory = ProductTotalPrice & {
   category: {
@@ -73,10 +74,10 @@ const ProductsTable = ({ products }: ProductsTableProps) => {
 
             <TableCell className="text-white">
               <button
-                className="text-red-500 hover:text-red-400"
+                className="text-red-600 hover:text-red-400"
                 onClick={() => handleDeleteProduct(product.id)}
               >
-                Excluir
+                <Trash2 />
               </button>
             </TableCell>
           </TableRow>

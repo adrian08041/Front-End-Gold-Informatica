@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import Cookies from "js-cookie";
 import { useAuth } from "@/service/hooks/authQuery";
+import Link from "next/link";
 
 export default function LoginPage() {
   const authMutation = useAuth();
@@ -75,7 +76,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex h-[100vh] items-center justify-center bg-white px-4">
+    <div className="flex h-[100vh] items-center justify-center bg-black px-4">
       <AnimatePresence>
         <motion.div
           initial={{ y: -40, opacity: 0 }}
@@ -100,12 +101,12 @@ export default function LoginPage() {
               }}
             >
               <div className="mb-4">
-                <label className="mb-2 block text-gray-300">Email</label>
+                <label className="mb-2 block text-gray-300">E-mail</label>
                 <input
                   type="email"
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  className={`w-full rounded-md border bg-black px-4 py-2 text-white ${
+                  className={`w-full rounded-md border bg-black px-4 py-2 text-gray-300 ${
                     errors.email ? "border-red-400" : "border-black"
                   }`}
                   placeholder="email@exemplo.com"
@@ -123,7 +124,7 @@ export default function LoginPage() {
                   onChange={(e) =>
                     setForm({ ...form, password: e.target.value })
                   }
-                  className={`w-full rounded-md border bg-black px-4 py-2 text-white ${
+                  className={`w-full rounded-md border bg-black px-4 py-2 text-gray-300 ${
                     errors.password ? "border-red-400" : "border-black"
                   }`}
                   placeholder="******"
@@ -146,7 +147,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full rounded-md bg-dourado py-2 font-semibold text-white transition hover:bg-dourado/75"
+                className="w-full rounded-md bg-dourado py-2 font-semibold text-black transition hover:bg-dourado/75"
               >
                 {loading ? (
                   <span className="flex items-center justify-center">
@@ -156,6 +157,12 @@ export default function LoginPage() {
                   "Entrar"
                 )}
               </button>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Ainda não possui conta?{" "}
+                <Link href="/register" className="font-semibold underline">
+                  Registre-se agora
+                </Link>
+              </p>
             </form>
           </motion.div>
         </motion.div>

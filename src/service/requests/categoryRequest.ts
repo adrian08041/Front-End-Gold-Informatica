@@ -21,3 +21,7 @@ export function createCategory(category: CreateCategoryRequest) {
 export function findOneCategoryBySlug(slug: string) {
   return api.get<ApiResult<CategoriesResponse>>(`/category/slug/${slug}`);
 }
+
+export function deleteCategory(id: string) {
+  return api.delete(`/category/${id}`);
+}
