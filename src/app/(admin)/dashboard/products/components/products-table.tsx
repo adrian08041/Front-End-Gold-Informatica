@@ -1,4 +1,5 @@
 "use client";
+
 import { ReactQueryKeysEnum } from "@/@types/enums/reactQuery";
 import {
   Table,
@@ -12,7 +13,18 @@ import { ProductTotalPrice } from "@/helpers/product";
 import { useDeleteProduct } from "@/service/hooks/productQuery";
 import { useQueryClient } from "@tanstack/react-query";
 import { Trash2 } from "lucide-react";
-import {  useCallback } from "react";
+import { useCallback, useState } from "react";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 
 export type ProductWithTotalPriceAndCategory = ProductTotalPrice & {
   category: {
@@ -25,20 +37,27 @@ interface ProductsTableProps {
 }
 
 const ProductsTable = ({ products }: ProductsTableProps) => {
-  const queryCliente = useQueryClient();
+  const queryClient = useQueryClient();
   const deleteProduct = useDeleteProduct();
+  const router = useRouter();
+
+  const [openDialogId, setOpenDialogId] = useState<string | null>(null);
 
   const handleDeleteProduct = useCallback(
-    (id: string) => {
-      console.log("Deleting product with ID:", id);
-      deleteProduct.mutateAsync(id).then(() => {
-        console.log("Product deleted successfully");
-        queryCliente.invalidateQueries({
+    async (id: string) => {
+      try {
+        await deleteProduct.mutateAsync(id);
+        toast.success("Produto excluído com sucesso!");
+        setOpenDialogId(null);
+        queryClient.invalidateQueries({
           queryKey: [ReactQueryKeysEnum.PRODUCTS_FIND_ALL],
         });
-      });
+        router.refresh();
+      } catch (error) {
+        toast.error("Erro ao excluir produto");
+      }
     },
-    [deleteProduct, queryCliente],
+    [deleteProduct, queryClient, router],
   );
 
   return (
@@ -59,7 +78,7 @@ const ProductsTable = ({ products }: ProductsTableProps) => {
             <TableCell className="text-white">{product.name}</TableCell>
 
             <TableCell className="text-white">
-              {(product as any).category.name}
+              {product.category.name}
             </TableCell>
 
             <TableCell className="text-white">
@@ -73,12 +92,46 @@ const ProductsTable = ({ products }: ProductsTableProps) => {
             <TableCell className="text-white">0</TableCell>
 
             <TableCell className="text-white">
-              <button
-                className="text-red-600 hover:text-red-400"
-                onClick={() => handleDeleteProduct(product.id)}
+              <Dialog
+                open={openDialogId === product.id}
+                onOpenChange={(open) =>
+                  setOpenDialogId(open ? product.id : null)
+                }
               >
-                <Trash2 />
-              </button>
+                <DialogTrigger asChild>
+                  <button className="text-red-600 hover:text-red-400">
+                    <Trash2 />
+                  </button>
+                </DialogTrigger>
+
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Confirmar exclusão</DialogTitle>
+                  </DialogHeader>
+                  <div className="py-4">
+                    <p className="text-sm text-muted-foreground">
+                      Tem certeza que deseja excluir o produto{" "}
+                      <strong>{product.name}</strong>? Essa ação não poderá ser
+                      desfeita.
+                    </p>
+                  </div>
+                  <DialogFooter>
+                    <Button
+                      variant="outline"
+                      onClick={() => setOpenDialogId(null)}
+                    >
+                      Cancelar
+                    </Button>
+                    <Button
+                      variant="destructive"
+                      onClick={() => handleDeleteProduct(product.id)}
+                      disabled={deleteProduct.isPending}
+                    >
+                      {deleteProduct.isPending ? "Excluindo..." : "Confirmar"}
+                    </Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
             </TableCell>
           </TableRow>
         ))}

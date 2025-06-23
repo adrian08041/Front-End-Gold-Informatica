@@ -2,7 +2,6 @@
 
 import { db } from "@/lib/prisma";
 export const createProduct = async ({
-    
   name,
   discountPercentage,
   basePrice,
@@ -20,5 +19,3 @@ export const createProduct = async ({
     },
   });
 };
-
-

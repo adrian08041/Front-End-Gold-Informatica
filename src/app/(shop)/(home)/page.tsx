@@ -8,7 +8,6 @@ import ProductList from "@/components/ui/product-list";
 import Link from "next/link";
 import { ProductQuery } from "@/service/hooks";
 
-
 export default function Home() {
   const { data: response, isLoading } = ProductQuery.useProductQueryKey({
     page: 0,
@@ -95,7 +94,7 @@ export default function Home() {
             />
           </div>
 
-          <div className="mt-8">
+          <div className="flex flex-col gap-3 lg:gap-5">
             <SectionTitle>Mouses</SectionTitle>
             <ProductList products={mouses} isLoading={isLoading} />
           </div>

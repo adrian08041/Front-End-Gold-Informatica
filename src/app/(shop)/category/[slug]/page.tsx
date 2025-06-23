@@ -22,7 +22,7 @@ const CategoryProducts = async ({ params }: any) => {
         {CATEGORY_ICON[params.slug as keyof typeof CATEGORY_ICON]}
         {category.name}
       </Badge>
-      <div className="grid grid-cols-2 gap-8 lg:flex lg:flex-wrap  ">
+      <div className="grid grid-cols-2 gap-8 lg:flex lg:flex-wrap">
         {category.products.map((product) => (
           <ProductItem
             key={product.id}

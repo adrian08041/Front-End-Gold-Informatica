@@ -105,7 +105,7 @@ const Header = () => {
     <Card className="flex items-center justify-between border-preto2 bg-black p-[1.875rem]">
       <Sheet>
         <SheetTrigger asChild>
-          <Button size="icon">
+          <Button variant="secondary" size="icon">
             <MenuIcon />
           </Button>
         </SheetTrigger>
@@ -144,7 +144,7 @@ const Header = () => {
               <SheetClose asChild key={item.name}>
                 <Link href={item.href}>
                   <Button
-                    variant={"outline"}
+                    variant="outline"
                     className="w-full justify-start border-backgroundItems bg-backgroundItems text-white"
                   >
                     {item.icon}
@@ -244,7 +244,7 @@ const Header = () => {
 
       <Sheet>
         <SheetTrigger asChild>
-          <Button size="icon">
+          <Button variant="secondary" size="icon">
             <ShoppingCartIcon />
           </Button>
         </SheetTrigger>

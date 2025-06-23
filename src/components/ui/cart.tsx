@@ -40,7 +40,7 @@ const Cart = () => {
 
       {/*  renderizar produtos */}
 
-      <div className="flex h-full flex-col gap-5 overflow-hidden ">
+      <div className="flex h-full flex-col gap-5 overflow-hidden">
         <div className="flex h-full flex-col">
           <ScrollArea className="h-full">
             <div className="flex h-full flex-col gap-6">

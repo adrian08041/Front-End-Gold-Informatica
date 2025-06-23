@@ -17,6 +17,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { api } from "@/service/api";
+import Link from "next/link";
 
 export function RegisterForm() {
   const router = useRouter();
@@ -120,6 +121,12 @@ export function RegisterForm() {
         >
           {isLoading ? "Criando conta..." : "Criar conta"}
         </Button>
+        <p className="text-sm text-muted-foreground">
+          Já possui conta?{" "}
+          <Link href="/login" className="font-semibold underline">
+            Faça login agora
+          </Link>
+        </p>
       </form>
     </Form>
   );
