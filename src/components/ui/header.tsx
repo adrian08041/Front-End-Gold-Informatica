@@ -115,7 +115,7 @@ const Header = () => {
             Menu
           </SheetHeader>
 
-          {status === "authenticated" && data?.user && (
+          {/* {status === "authenticated" && data?.user && (
             <div className="mt-4 flex flex-col">
               <div className="flex flex-col">
                 <div className="flex items-center gap-2 py-4">
@@ -137,7 +137,7 @@ const Header = () => {
 
               <Separator />
             </div>
-          )}
+          )} */}
 
           <div className="mt-2 flex flex-col gap-2">
             {filteredMenu.map((item) => (

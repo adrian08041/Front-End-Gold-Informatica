@@ -1,6 +1,6 @@
 "use client";
 import { Badge } from "@/components/ui/badge";
-import { prismaClient } from "@/lib/prisma";
+
 import { PackageIcon } from "lucide-react";
 
 import { computeProductTotalPrice } from "@/helpers/product";

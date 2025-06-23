@@ -1,5 +1,4 @@
 "use client";
-
 import { ReactQueryKeysEnum } from "@/@types/enums/reactQuery";
 import {
   Table,
@@ -13,9 +12,10 @@ import { ProductTotalPrice } from "@/helpers/product";
 import { useDeleteProduct } from "@/service/hooks/productQuery";
 import { useQueryClient } from "@tanstack/react-query";
 import { Trash2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+
 import {
   Dialog,
   DialogTrigger,
