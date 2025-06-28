@@ -1,3 +1,4 @@
+"use client";
 import { ShoppingCartIcon } from "lucide-react";
 import { Badge } from "./badge";
 import { useContext } from "react";
@@ -9,16 +10,19 @@ import { ScrollArea } from "./scroll-area";
 import { Button } from "./button";
 import { createCheckout } from "@/actions/checkout";
 import { loadStripe } from "@stripe/stripe-js";
-import { signIn, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { createOrder } from "@/actions/order";
+import { useRouter } from "next/navigation";
 
 const Cart = () => {
-  const { data } = useSession();
-  const { products, subTotal, total, totalDiscount } = useContext(CartContext);
+  const { data, status } = useSession();
+  console.log("Sessão:", status, data);
 
+  const { products, subTotal, total, totalDiscount } = useContext(CartContext);
+  const router = useRouter();
   const handleFinishCheckout = async () => {
     if (!data?.user?.email) {
-      signIn(); // Redireciona para a página de login
+      router.push("/login"); // Redireciona para a página de login
       return;
     }
 

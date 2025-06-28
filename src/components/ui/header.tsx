@@ -11,7 +11,7 @@ import {
   PercentIcon,
   ShoppingCartIcon,
 } from "lucide-react";
-import Cookies from "js-cookie";
+
 import { Button } from "./button";
 import { Card } from "./card";
 import {
@@ -22,12 +22,10 @@ import {
   SheetClose,
 } from "./sheet";
 import Cookie from "js-cookie";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 import logo from "/public/assets/logo.png";
 
-import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
-import { Separator } from "./separator";
 import Image from "next/image";
 import Link from "next/link";
 import Cart from "./cart";
