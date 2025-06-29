@@ -10,23 +10,23 @@ import { ScrollArea } from "./scroll-area";
 import { Button } from "./button";
 import { createCheckout } from "@/actions/checkout";
 import { loadStripe } from "@stripe/stripe-js";
-import { useSession } from "next-auth/react";
+
 import { createOrder } from "@/actions/order";
 import { useRouter } from "next/navigation";
+import { getUserIdFromToken } from "@/utils/token.cliente";
 
 const Cart = () => {
-  const { data, status } = useSession();
-  console.log("Sessão:", status, data);
-
   const { products, subTotal, total, totalDiscount } = useContext(CartContext);
   const router = useRouter();
   const handleFinishCheckout = async () => {
-    if (!data?.user?.email) {
-      router.push("/login"); // Redireciona para a página de login
+    const userId = getUserIdFromToken();
+
+    if (!userId) {
+      router.push("/login");
       return;
     }
 
-    const order = await createOrder(products, data.user.id);
+    const order = await createOrder(products, userId);
 
     const checkout = await createCheckout(products, order.id);
 

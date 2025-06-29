@@ -30,9 +30,10 @@ import Image from "next/image";
 import Link from "next/link";
 import Cart from "./cart";
 import { useEffect, useState } from "react";
-import { getUserRoleFromToken } from "@/utils/token";
+
 import { RoleEnum } from "@/@types/enums/role";
 import { useRouter } from "next/navigation";
+import { getUserRoleFromToken } from "@/utils/token.cliente";
 
 const dataHeader = [
   {

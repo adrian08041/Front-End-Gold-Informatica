@@ -6,11 +6,12 @@ import { prismaClient } from "@/lib/prisma";
 import { PackageSearchIcon } from "lucide-react";
 import { getServerSession } from "next-auth";
 import OrderItem from "../../../components/ui/order-item";
+import { getServerUserIdFromCookie } from "@/utils/token.server";
+
 
 async function OrderPage() {
-  const user = await getServerSession(authOptions);
-  // console.log("User:", user);
-  if (!user) {
+  const userId = await getServerUserIdFromCookie();
+  if (!userId) {
     return (
       <div className="flex h-full w-full items-center justify-center">
         <p className="text-center font-semibold text-white">
@@ -22,7 +23,7 @@ async function OrderPage() {
 
   const orders = await prismaClient.order.findMany({
     where: {
-      userId: (user as any).id,
+      userId,
     },
     include: {
       orderProducts: {
