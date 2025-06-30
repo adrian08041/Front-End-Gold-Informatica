@@ -26,21 +26,25 @@ const CategoryProducts = async ({ params }: any) => {
         {category.name}
       </Badge>
       <div className="grid grid-cols-2 gap-8 lg:flex lg:flex-wrap">
-        {category.products.map((product) => (
-          <ProductItem
-            key={product.id}
-            product={{
-              ...product,
-              basePrice: product.price, // <- necessário para compatibilidade com computeProductTotalPrice
-              discountPercentage: product.discountPercentage ?? 0, // garantir número
-              categoryId: product.category.id,
-              totalPrice: computeProductTotalPrice({
-                basePrice: product.price,
-                discountPercentage: product.discountPercentage ?? 0,
-              }),
-            }}
-          />
-        ))}
+        {category.products.map(
+          (product) => (
+            console.log(
+              "product.price:",
+              product.price,
+              "| typeof:",
+              typeof product.price,
+            ),
+            (
+              <ProductItem
+                key={product.id}
+                product={{
+                  ...product,
+                  totalPrice: computeProductTotalPrice(product),
+                }}
+              />
+            )
+          ),
+        )}
       </div>
     </div>
   );

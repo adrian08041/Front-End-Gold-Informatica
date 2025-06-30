@@ -23,13 +23,7 @@ const DealsPage = async () => {
             key={product.id}
             product={{
               ...product,
-              discountPercentage: product.discountPercentage ?? 0,
-              totalPrice: computeProductTotalPrice({
-                basePrice: product.price,
-                discountPercentage: product.discountPercentage ?? 0,
-              }),
-              basePrice: product.price,
-              categoryId: product.category?.id ?? "",
+              totalPrice: computeProductTotalPrice(product),
             }}
           />
         ))}
