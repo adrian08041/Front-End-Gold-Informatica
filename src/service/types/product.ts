@@ -1,4 +1,4 @@
-type CategoryResponse = {
+export type CategoryResponse = {
   id: string;
   name: string;
   slug: string;
@@ -25,7 +25,7 @@ export type ProductFindAllRequest = {
   name?: string;
 };
 
-export type CreateProductRequest = {	
+export type CreateProductRequest = {
   name: string;
   slug: string;
   description: string;
@@ -33,5 +33,4 @@ export type CreateProductRequest = {
   categoryId: string;
   discountPercentage?: number;
   imageUrls?: string[];
-}
-
+};

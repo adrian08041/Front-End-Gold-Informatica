@@ -1,19 +1,22 @@
 import { Badge } from "@/components/ui/badge";
 import ProductItem from "@/components/ui/product-item";
 
-import { prismaClient } from "@/lib/prisma";
 import { CATEGORY_ICON } from "../../constants/category-icon";
 import { computeProductTotalPrice } from "@/helpers/product";
+import { Product } from "@/@types/product";
+import { Category } from "@/@types/category";
 
 const CategoryProducts = async ({ params }: any) => {
-  const category = await prismaClient.category.findFirst({
-    where: {
-      slug: params.slug,
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/category/slug/${params.slug}`,
+    {
+      cache: "no-store",
     },
-    include: {
-      products: true,
-    },
-  });
+  );
+
+  if (!res.ok) return null;
+
+  const { data: category }: { data: Category } = await res.json();
   if (!category) return null;
 
   return (
@@ -28,7 +31,13 @@ const CategoryProducts = async ({ params }: any) => {
             key={product.id}
             product={{
               ...product,
-              totalPrice: computeProductTotalPrice(product),
+              basePrice: product.price, // <- necessário para compatibilidade com computeProductTotalPrice
+              discountPercentage: product.discountPercentage ?? 0, // garantir número
+              categoryId: product.category.id,
+              totalPrice: computeProductTotalPrice({
+                basePrice: product.price,
+                discountPercentage: product.discountPercentage ?? 0,
+              }),
             }}
           />
         ))}

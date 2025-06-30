@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { UploadCloud, X } from "lucide-react";
+import Image from "next/image";
 
 type Props = {
   value: File[]; // recebe os arquivos do react-hook-form
@@ -50,10 +51,12 @@ export default function ImageUploader({ value, onChange }: Props) {
               key={idx}
               className="group relative overflow-hidden rounded-lg shadow-md"
             >
-              <img
+              <Image
                 src={URL.createObjectURL(file)}
                 alt={`preview-${idx}`}
                 className="h-32 w-full rounded-md object-cover"
+                width={128}
+                height={128}
               />
               <button
                 type="button"

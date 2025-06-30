@@ -26,6 +26,15 @@ export function useCategoryQuery(
     },
   });
 }
+export function useCategoryOneBySlugQueryKey(slug: string) {
+  return useQuery({
+    queryKey: [ReactQueryKeysEnum.CATEGORIES_FIND_ALL, slug],
+    queryFn: async () => {
+      const { data } = await CategoryRequest.findOneCategoryBySlug(slug);
+      return data;
+    },
+  });
+}
 
 export function useCreateCategory() {
   const mutation = useMutation({

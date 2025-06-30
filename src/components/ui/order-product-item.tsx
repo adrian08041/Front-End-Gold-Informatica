@@ -12,7 +12,10 @@ interface OrderProductsItemProps {
 }
 
 const OrderProductsItem = ({ orderProduct }: OrderProductsItemProps) => {
-  const productTotalPrice = computeProductTotalPrice(orderProduct.product);
+  const productTotalPrice = computeProductTotalPrice({
+    ...orderProduct.product,
+    basePrice: Number(orderProduct.product.basePrice),
+  });
   return (
     <div className="flex w-full items-center gap-4">
       <div className="flex h-[77px] w-[77px] items-center justify-center rounded-lg bg-backgroundItems">
