@@ -1,7 +1,6 @@
-# 🖥️ Gold Informática - E-commerce  
+# 🖥️ Gold Informática - E-commerce
 
 Uma plataforma completa de e-commerce para periféricos e acessórios de informática, desenvolvida com Next.js 13, TypeScript e Prisma.
-
 
 ## 🎯 Sobre o Projeto
 
@@ -65,9 +64,6 @@ O **Gold Informática** é uma loja virtual especializada em periféricos e aces
 ### Banco de Dados
 
 - **PostgreSQL** - Banco de dados relacional
-
-
-
 
 ```bash
 npm run dev
@@ -144,13 +140,3 @@ npx prisma db seed   # Executa o seed
 ### Pagamentos
 
 - `POST /api/order/payment-success` - Webhook do Stripe
-
-
-
-
-
-
-
-
-
-
